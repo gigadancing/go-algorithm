@@ -1,6 +1,10 @@
 package binary_tree
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+	"strconv"
+)
 
 // 节点
 type Node struct {
@@ -148,4 +152,32 @@ func (bst *BinaryTree) postorder(node *Node) {
 	bst.postorder(node.Left)
 	bst.postorder(node.Right)
 	fmt.Printf("%d ", node.Data)
+}
+
+//
+func (bst *BinaryTree) String() string {
+	var buffer bytes.Buffer
+	bst.generateString(bst.Root, 0, &buffer)
+	return buffer.String()
+}
+
+//
+func (bst *BinaryTree) generateString(node *Node, depth int, buffer *bytes.Buffer) {
+	if node == nil {
+		//buffer.WriteString(bst.generateDepthString(depth) + "nil\n") // 空节点
+		return
+	}
+
+	bst.generateString(node.Left, depth+1, buffer)
+	buffer.WriteString(bst.generateDepthString(depth) + strconv.Itoa(node.Data) + "\n")
+	bst.generateString(node.Right, depth+1, buffer)
+}
+
+//
+func (bst *BinaryTree) generateDepthString(depth int) string {
+	var buffer bytes.Buffer
+	for i := 0; i < depth; i++ {
+		buffer.WriteString("--")
+	}
+	return buffer.String()
 }
