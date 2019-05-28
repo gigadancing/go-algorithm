@@ -218,3 +218,42 @@ func (bst *BinaryTree) removeMin(node *Node) *Node {
 	node.Left = bst.removeMin(node.Left)
 	return node
 }
+
+// 删除
+func (bst *BinaryTree) Remove(data int) {
+	bst.Root = bst.remove(bst.Root, data)
+}
+
+//
+func (bst *BinaryTree) remove(node *Node, data int) *Node {
+	if node == nil {
+		return nil
+	}
+	if data < node.Data {
+		node.Left = bst.remove(node.Left, data)
+		return node
+	} else if data > node.Data {
+		node.Right = bst.remove(node.Right, data)
+		return node
+	} else {
+		if node.Left == nil {
+			right := node.Right
+			node.Right = nil
+			bst.Size--
+			return right
+		}
+		if node.Right == nil {
+			left := node.Left
+			node.Left = nil
+			bst.Size--
+			return left
+		}
+		// 左右子树不为空
+		okNode := bst.min(node.Right) // 从右子树中找出最小的节点顶替我
+		okNode.Right = bst.removeMin(node.Right)
+		okNode.Left = node.Left
+		node.Left = nil
+		node.Right = nil
+		return okNode
+	}
+}
