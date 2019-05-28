@@ -154,7 +154,7 @@ func (bst *BinaryTree) postorder(node *Node) {
 	fmt.Printf("%d ", node.Data)
 }
 
-//
+// 二叉树转string
 func (bst *BinaryTree) String() string {
 	var buffer bytes.Buffer
 	bst.generateString(bst.Root, 0, &buffer)
@@ -180,4 +180,41 @@ func (bst *BinaryTree) generateDepthString(depth int) string {
 		buffer.WriteString("--")
 	}
 	return buffer.String()
+}
+
+// 删除最大节点
+func (bst *BinaryTree) RemoveMax() int {
+	max := bst.Max()
+	bst.Root = bst.removeMax(bst.Root)
+	return max
+}
+
+//
+func (bst BinaryTree) removeMax(node *Node) *Node {
+	if node.Right == nil {
+		left := node.Left
+		bst.Size--
+		return left
+	}
+	node.Right = bst.removeMax(node.Right)
+	return node
+}
+
+// 删除最小节点
+func (bst *BinaryTree) RemoveMin() int {
+	min := bst.Min()
+	bst.Root = bst.removeMin(bst.Root)
+	return min
+}
+
+//
+func (bst *BinaryTree) removeMin(node *Node) *Node {
+	if node.Left == nil {
+		right := node.Right // 备份右子树
+		bst.Size--
+
+		return right
+	}
+	node.Left = bst.removeMin(node.Left)
+	return node
 }

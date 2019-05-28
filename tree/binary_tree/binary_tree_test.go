@@ -43,4 +43,10 @@ func TestBinaryTree(t *testing.T) {
 	fmt.Println("后序遍历:")
 	bst.Postorder()
 	fmt.Println()
+	fmt.Println("删除最小值")
+	bst.RemoveMin()
+	fmt.Println(bst.String())
+	fmt.Println("删除最大值")
+	bst.RemoveMax()
+	fmt.Println(bst.String())
 }
